@@ -1,13 +1,14 @@
 const uuid                         = require('uuid-v4');
 const Employee                     = require('../models/Employee');
-const CreateEmployeeInputValidator = require('../validation/input_validation/CreateEmployeeInputValidator');
-const UpdateEmployeeInputValidator = require('../validation/input_validation/UpdateEmployeeInputValidator');
+const EmployeeGate                 = require('../gates/EmployeeGate');
+const CreateEmployeeInputValidator = require('../validation/CreateEmployeeInputValidator');
+const UpdateEmployeeInputValidator = require('../validation/UpdateEmployeeInputValidator');
 
 class EmployeeController {
     
     static async create(obj, args, context) {
 
-        //check employee gate
+        await EmployeeGate.can('create', context, args.manager_id);
 
         await CreateEmployeeInputValidator.validate(args.createEmployeeInput);
 
@@ -23,7 +24,7 @@ class EmployeeController {
 
     static async update(obj, args, context) {
 
-        //check employee gate
+        await EmployeeGate.can('update', context, args.employee_id);
 
         await UpdateEmployeeInputValidator.validate(args.updateEmployeeInput);
 
@@ -38,19 +39,32 @@ class EmployeeController {
 
     static async delete(obj, args, context) {
         try {
-            
-            //check employee gate
+            await EmployeeGate.can('delete', context, args.employee_id);
 
-            const employee = await Employee.findOne({_id: id})
+            const employee = await Employee.findOne({_id: args.employee_id})
             if (!employee) {
                 throw new Error("Employee not found in EmployeeController.delete");
             }
             await employee.delete();   
-            return `Employee ${args.id} has been deleted.`         
+
+            return `Employee ${args.employee_id} has been deleted.`   
+
         } catch (error){
             throw new Error(error.message);
         }
     }
+    
+    static async get(obj, args, context) {
+        await EmployeeGate.can('get', context, args.employee_id);
+
+        let employee = await Employee.findOne({_id: args.employee_id});
+        if (!employee) {
+            throw new Error('Invalid Employee ID.');
+        }
+
+        return employee;
+    }
+
 }
 
 module.exports = EmployeeController;

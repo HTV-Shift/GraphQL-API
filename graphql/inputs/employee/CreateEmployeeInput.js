@@ -5,7 +5,7 @@ const gql = require('graphql-tag');
  *     username: !string,
  *     password: !string,
  *     email_address: !string,
- *     vendor_id: !string,
+ *     manager_id: !string,
  * }} CreateEmployeeInput
  */
 
@@ -14,6 +14,6 @@ input CreateEmployeeInput {
     username: String!,
     password: String!,
     email_address: String!,
-    vendor_id: String!,
+    manager_id: String!,
 }
 `;

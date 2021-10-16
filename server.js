@@ -4,6 +4,8 @@ const express        = require('express');
 const app            = express();
 const {ApolloServer} = require('apollo-server-express');
 const typeDefs       = require('./graphql/typeDefs');
+const controllers    = require('./controllers')
+const middlewares    = require('./middlewares')
 
 const dotenv         = require('dotenv');
 dotenv.config();
@@ -13,23 +15,26 @@ const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-serve
 
 const resolvers = {
     Query: {
-
+        employee: controllers.EmployeeController.get,
     },
     Mutation: {
+        createEmployee: controllers.EmployeeController.create,
+        updateEmployee: controllers.EmployeeController.update,
+        deleteEmployee: controllers.EmployeeController.delete,
 
     },
     Employee: {
-
+        
     }
 }
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(middlewares.authenticationMiddleware);
 
 /**
  * @typedef {{
  *     master: ?boolean,
- *     customer: ?Customer,
  *     employee: ?Employee,
  *     body: {
  *         query: !string,

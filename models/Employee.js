@@ -4,7 +4,7 @@ const mongooseDelete = require('mongoose-delete');
 
 let employeeSchema = mongoose.Schema(
     {
-        vendor_id: mongoose.SchemaTypes.ObjectId,
+        manager_id: mongoose.SchemaTypes.ObjectId,
         username: String,
         password: String,
         email_address: String,
