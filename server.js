@@ -21,10 +21,11 @@ const resolvers = {
         createEmployee: controllers.EmployeeController.create,
         updateEmployee: controllers.EmployeeController.update,
         deleteEmployee: controllers.EmployeeController.delete,
-
     },
-    Employee: {
-        
+    Shift: {
+        //createShift
+        //updateShift
+        //deleteShift
     }
 }
 

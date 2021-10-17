@@ -6,7 +6,6 @@ const Employee          = require('../../models/Employee');
 
 let app, startingPort = 10000;
 
-
 function buildDefaultCreateEmployeeInput({managerId, username}) {
     return {
         username: username,

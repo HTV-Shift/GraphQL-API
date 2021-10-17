@@ -6,6 +6,16 @@ const UpdateEmployeeInputValidator = require('../validation/UpdateEmployeeInputV
 
 class EmployeeController {
     
+    /**
+     * Create an Employee
+     * @param {*} obj 
+     * @param {!{
+     *  createEmployeeInput: !CreateEmployeeInput
+     *  manager_id: !string
+     * }} args 
+     * @param {*} context 
+     * @returns {!Promise<!Employee>}
+     */
     static async create(obj, args, context) {
 
         await EmployeeGate.can('create', context, args.manager_id);
@@ -22,6 +32,16 @@ class EmployeeController {
         return employee;
     }
 
+    /**
+     * Update an existing Employee
+     * @param obj 
+     * @param {!{
+     *  updateEmployeeInput: !UpdateEmployeeInput
+     *  employee_id: !string
+     * }} args 
+     * @param context 
+     * @returns {!Promise<!Employee>}
+     */
     static async update(obj, args, context) {
 
         await EmployeeGate.can('update', context, args.employee_id);
@@ -37,6 +57,15 @@ class EmployeeController {
         return await employee.save();
     }
 
+    /**
+     * Delete an Employee
+     * @param {*} obj 
+     * @param {!{
+     *  employee_id: !string
+     * }} args 
+     * @param {*} context 
+     * @returns {!Promise<!String>}
+     */
     static async delete(obj, args, context) {
         try {
             await EmployeeGate.can('delete', context, args.employee_id);
@@ -54,6 +83,15 @@ class EmployeeController {
         }
     }
     
+    /**
+     * Retrieve an Employee from the database
+     * @param {*} obj 
+     * @param {!{
+     *  employee_id: !string
+     * }} args 
+     * @param {*} context 
+     * @returns {!Promise<!Employee>}
+     */
     static async get(obj, args, context) {
         await EmployeeGate.can('get', context, args.employee_id);
 
@@ -64,7 +102,7 @@ class EmployeeController {
 
         return employee;
     }
-
+    
 }
 
 module.exports = EmployeeController;

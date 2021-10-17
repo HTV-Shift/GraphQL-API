@@ -15,9 +15,6 @@ type Employee {
     "The employee's email address."
     email_address: EmailAddress!
 
-    "The Vendor this employee works for. TODO: add vendor model"
-    vendor: String
-
     "The time this Employee was created."
     created_at: Date!
 
